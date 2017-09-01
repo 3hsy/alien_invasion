@@ -1,12 +1,12 @@
-__author__ = 'Administrator'
 # -*- coding: utf-8 -*-
+__author__ = 'Administrator'
 import sys
 
 import pygame
 
 import game_functions
 
-from setting import Setting
+import setting
 from ship import Ship
 
 
@@ -14,24 +14,23 @@ from pygame.sprite import Group
 
 def run_game():
     pygame.init()
-    ship_setting = Setting()
-    screen = pygame.display.set_mode((ship_setting.screen_width, ship_setting.screen_height))
+    screen = pygame.display.set_mode((setting.SCREEN_WIDTH, setting.SCREEN_HEIGHT))
     pygame.display.set_caption("Alien Invasion")
-    ship = Ship(screen,ship_setting)
+    ship = Ship(screen,setting)
 
     bullets = Group()
     aliens = Group()
-    game_functions.creat_aliens(ship_setting,screen,aliens)
+    game_functions.creat_aliens(setting,screen,aliens)
 
     while True:
         #
-        game_functions.check(ship_setting,screen,ship,bullets)
+        game_functions.check(setting,screen,ship,bullets)
 
         ship.update()
         game_functions.update_bullet(bullets,aliens)
-        game_functions.upadte_alien(aliens)
+        game_functions.upadte_aliens(aliens)
 
        #更新背景#
-        game_functions.update_screen(ship_setting, screen, ship, bullets, aliens)
+        game_functions.update_screen(setting, screen, ship, bullets, aliens)
 
 run_game()

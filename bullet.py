@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 __author__ = 'Administrator'
 import pygame
 from pygame.sprite import Sprite
@@ -10,7 +11,7 @@ class Bullet(Sprite):
         self.rect = self.image_bullet.get_rect()
         self.rect.centerx = ship.rect.centerx
         self.rect.top = ship.rect.top
-        self.bullet_speed = ship_setting.bullet_speed
+        self.bullet_speed = ship_setting.BULLET_SPEED
         self.middle2 = float(self.rect.y)
 
     def update(self):

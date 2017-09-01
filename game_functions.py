@@ -1,17 +1,19 @@
+# -*- coding: utf-8 -*-
 __author__ = 'Administrator'
 import sys
 
 import pygame
+import setting
 from bullet import Bullet
 from alien import Alien
 from random import randint
 
 def check(ship_setting,screen,ship,bullets):
     for event in pygame.event.get():
-        #¼ì²éÍË³ö
+        # æ£€æŸ¥é€€å‡º
             if pygame.QUIT == event.type:
                 sys.exit()
-        #¼ì²é°´¼ü£¬ÉèÖÃmarkÖµ
+        # æ£€æŸ¥æŒ‰é”®ï¼Œè®¾ç½®markå€¼
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RIGHT:
 
@@ -20,9 +22,9 @@ def check(ship_setting,screen,ship,bullets):
                 if event.key == pygame.K_LEFT:
                     ship.rect.centerx -= 100
                     ship.moving_mark2 = True
-                #·¢Éä
+                # å‘å°„
                 if event.key ==pygame.K_SPACE:
-                    if len(bullets) <= ship_setting.bullet_allow:
+                    if len(bullets) <= ship_setting.BULLET_ALLOW:
                         new_bullet = Bullet(ship_setting,screen,ship)
                         bullets.add(new_bullet)
 
@@ -32,14 +34,14 @@ def check(ship_setting,screen,ship,bullets):
                 if event.key == pygame.K_LEFT:
                     ship.moving_mark2 = False
 
-#´´½¨ÍâĞÇ·É´¬
+#åˆ›å»ºå¤–æ˜Ÿé£èˆ¹
 def creat_aliens(ship_setting, screen, aliens):
     alien = Alien(ship_setting, screen)
 
-    number_count = int((ship_setting.screen_height - alien.rect.height *9 ) / (alien.rect.height))
+    number_count = int((ship_setting.SCREEN_HEIGHT - alien.rect.height *9 ) / (alien.rect.height))
     for number in range(number_count):
          distance = alien.rect.width
-         while( distance < (ship_setting.screen_width - alien.rect.width * 5) ):
+         while( distance < (ship_setting.SCREEN_WIDTH - alien.rect.width * 5) ):
             randomnumber = randint (1,3)
             distance += randomnumber  * alien.rect.width
             alien = Alien(ship_setting, screen)
@@ -47,11 +49,11 @@ def creat_aliens(ship_setting, screen, aliens):
             alien.rect.x = alien.x
             alien.rect.y = alien.rect.height * number*2 + alien.rect.height
             aliens.add(alien)
-#¸üĞÂ·É´¬
+#æ›´æ–°é£èˆ¹
 def update_screen(ai_setting, screen, ship,bullets,aliens):
-    screen.fill(ai_setting.bg_color)
+    screen.fill(ai_setting.BG_COLOR)
     ship.blitme()
-    #Õâ¾ä²»ÖªµÀÎªÊ²Ã´²»¶Ô
+    # è¿™å¥ä¸çŸ¥é“ä¸ºä»€ä¹ˆä¸å¯¹
     # aliens.draw(screen)
     for alien in aliens.sprites():
         alien.blitme()
@@ -59,8 +61,20 @@ def update_screen(ai_setting, screen, ship,bullets,aliens):
         bullet.blitme()
 
     pygame.display.flip()
-def upadte_alien(aliens):
-    aliens.update(aliens)
+
+def update_directions(aliens):
+    for alien in aliens.sprites():
+        screen_rect = alien.screen.get_rect()
+        if (alien.rect.right >= screen_rect.right or alien.rect.left < 0):
+            for alien2 in aliens.sprites():
+                alien2.rect.y += alien2.ship_setting.ALIENDOWN_SPEED
+            setting.ALIEN_DIRECTION *= -1
+            break
+
+def upadte_aliens(aliens):
+    update_directions(aliens)
+    for alien in aliens.sprites():
+        alien.update()
 
 def update_bullet(bullets, aliens):
      bullets.update()

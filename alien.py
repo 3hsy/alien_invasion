@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 __author__ = 'Administrator'
 import pygame
 from pygame.sprite import Sprite
@@ -10,24 +11,15 @@ class Alien(Sprite):
         self.image_alien = pygame.image.load('image/alien.jpg')
         self.rect = self.image_alien.get_rect()
 
-        self.rect.centerx = self.rect.width
-        self.rect.centery = self.rect.height
+        self.rect.x = self.rect.width
+        self.rect.y = self.rect.height
 
-        self.x = float(self.rect.centerx)
-        #·É´¬µÄ×óÓÒÉÏÏÂÒÆ¶¯
-    def update(self,aliens):
-        self.screen1 = self.screen.get_rect()
-        for alien in aliens.sprites():
-            if (alien.rect.right >= self.screen1.right or alien.rect.left < 0):
-                for alien2 in aliens.sprites():
-                    alien2.rect.y += self.ship_setting.aliendown_speed
-                self.ship_setting.alien_direction *= -1
-                break
-        # ÏÂÃæIF Õâ¾äÒªÊÇ²»×¢ÊÍµô¾Í100%ÓÐ bug£¬  ×¢ÊÍµôºóÓÐÊ±ºòÉÏÀ´ÊÇÕý³£µÄ£¬µ«ÊÇÒ»µ©·¢Éä×Óµ¯´òµôÈÎÒâÒ»¸ö·É´¬¾Í»á³öÏÖbug¡£
-        #if (self.rect.right < self.screen1.right):
-        self.x += self.ship_setting.alien_speed * self.ship_setting.alien_direction
+        self.x = float(self.rect.x)
+        # é£žèˆ¹çš„å·¦å³ä¸Šä¸‹ç§»åŠ¨
+
+    def update(self):
+        self.x += self.ship_setting.ALIEN_SPEED * self.ship_setting.ALIEN_DIRECTION
         self.rect.x = self.x
-
 
     def blitme (self):
         self.screen.blit(self.image_alien, self.rect)

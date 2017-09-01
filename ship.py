@@ -1,29 +1,30 @@
+# -*- coding: utf-8 -*-
 __author__ = 'Administrator'
 
 import pygame
 
 class Ship():
     def __init__(self,screen,setting):
-        #µ÷Õû³õÊ¼Î»ÖÃ
+        # è°ƒæ•´åˆå§‹ä½ç½®
         self.screen = screen
         self.image = pygame.image.load('image/ship.jpg')
         self.rect = self.image.get_rect()
         self.screen_rect = self.screen.get_rect()
         self.rect.centerx = self.screen_rect.centerx
         self.rect.bottom = self.screen_rect.bottom
-        #ÉèÖÃ³õÊ¼mark
+        # è®¾ç½®åˆå§‹mark
         self.moving_mark = False
         self.moving_mark2 = False
-        #setting²ÎÊı
+        #settingå‚æ•°
         self.ship_setting = setting
-        #ÉèÖÃÖĞ¼äÁ¿£¬ÓÃÓÚ½ÓÊÕĞ¡Êı
+        # è®¾ç½®ä¸­é—´é‡ï¼Œç”¨äºæ¥æ”¶å°æ•°
         self.middle =float(self.rect.centerx)
     def update(self):
-        #³ÖĞø°´¼üµÄ±ä»¯
+        # æŒç»­æŒ‰é”®çš„å˜åŒ–
         if self.moving_mark and self.rect.right < self.screen_rect.right :
-            self.middle += self.ship_setting.ship_speed
+            self.middle += self.ship_setting.SHIP_SPEED
         if self.moving_mark2 and self.rect.left > 0:
-            self.middle -= self.ship_setting.ship_speed
+            self.middle -= self.ship_setting.SHIP_SPEED
         self.rect.centerx = self.middle
     def blitme(self):
         self.screen.blit(self.image , self.rect)
